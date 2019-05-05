@@ -89,6 +89,7 @@ export default class HTML extends PureComponent {
 
     componentWillReceiveProps (nextProps) {
         const { html, uri, renderers } = this.props;
+
         this.generateDefaultStyles(nextProps.baseFontStyle);
         if (renderers !== nextProps.renderers) {
             this.renderers = { ...HTMLRenderers, ...(nextProps.renderers || {}) };
@@ -96,11 +97,10 @@ export default class HTML extends PureComponent {
         if (html !== nextProps.html || uri !== nextProps.uri) {
             // If the source changed, register the new HTML and parse it
             this.registerDOM(nextProps);
-        } else if (!nextProps.disableRerenders || !this.hasParsedDOM)  {
+        } else if (!nextProps.disableRerenders)  {
             // If it didn't, let's just parse the current DOM and re-render the nodes
             // to compute potential style changes
             this.parseDOM(this.state.dom, nextProps);
-            this.hasParsedDOM = true
         }
     }
 
